@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server'
 import { startStandaloneServer } from '@apollo/server/standalone'
 
 import { typeDefs } from './src/schema.js'
+import { connectDB } from './src/db/index.js'
 
 const PORT = 4000 
 
@@ -20,5 +21,7 @@ const server = new ApolloServer({
 startStandaloneServer(server, {
     listen: { port: PORT }
 }).then(() => {
-    console.log(`Server listening on ${PORT}`)
+    connectDB().then(() => {
+        console.log(`Server listening on ${PORT}`)
+    })
 })
