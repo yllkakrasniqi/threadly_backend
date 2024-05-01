@@ -47,7 +47,7 @@ export const typeDefs = `#graphql
         filename: String!,
         path: String!,
 
-        product: Product!,
+        prodcolor: ProdColor,
     }
     type ProdSizeAmount {
         _id: ID!,
@@ -62,10 +62,11 @@ export const typeDefs = `#graphql
         brands: [Brand!],
         products: [Product!],
         product(id: ID!): Product,
-        colors: [Color!]
+        colors: [Color!],
         prodcolors: [ProdColor!],
         prodcolor(id: ID!): ProdColor,
-
+        prodimages: [ProdImage!],
+        prodimage(id: ID!): ProdImage,
     }
 
 `

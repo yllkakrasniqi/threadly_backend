@@ -8,6 +8,7 @@ import Brand from './src/models/Brand.js'
 import Product from './src/models/Product.js'
 import ProdColor from './src/models/ProdColor.js'
 import Color from './src/models/Color.js'
+import ProdImage from './src/models/ProdImage.js'
 
 const PORT = 4000 
 
@@ -63,6 +64,24 @@ const resolvers = {
         },
         prodcolor(_, args) {
             return ProdColor.findById(args._id)
+            .then(result => {
+                return result._doc;
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        },
+        prodimages() {
+            return ProdImage.find()
+            .then(result => {
+                return result.map(r => ({ ...r._doc }))
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        },
+        prodimage(_, args) {
+            return ProdImage.findById(args._id)
             .then(result => {
                 return result._doc;
             })
@@ -127,6 +146,21 @@ const resolvers = {
             return Color.findById(parent.colorID)
             .then(result => {
                 return result._doc
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        }
+    },
+    ProdImage: {
+        prodcolor(parent) {
+            return ProdColor.findById(parent.prod_color_id)
+            .then(result => {
+                if(result._doc){
+                    return result._doc
+                } else {
+                    return
+                }
             })
             .catch((err) => {
                 console.error(err);
