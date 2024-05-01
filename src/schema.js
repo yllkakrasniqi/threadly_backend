@@ -18,15 +18,15 @@ export const typeDefs = `#graphql
         prodcolors: [ProdColor!]!
     },
     type Color {
-        _id:  ID!,
+        _id:  String!,
         colorStr: String!,
 
-        prodcolos: [ProdColor!]
+        prodcolors: [ProdColor!]
     }
     type ProdColor {
         _id: ID!,
         productID: ID!,
-        colorID: ID!,
+        colorID: String!,
         
         product: Product!,
         color: Color!,
@@ -62,6 +62,10 @@ export const typeDefs = `#graphql
         brands: [Brand!],
         products: [Product!],
         product(id: ID!): Product,
+        colors: [Color!]
+        prodcolors: [ProdColor!],
+        prodcolor(id: ID!): ProdColor,
+
     }
 
 `
