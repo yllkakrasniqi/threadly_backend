@@ -58,7 +58,10 @@ export const typeDefs = `#graphql
         prodcolor: ProdColor!
     },
     type Query {
-        hello: String!
+        hello: String!,
+        brands: [Brand!],
+        products: [Product!],
+        product(id: ID!): Product,
     }
 
 `
