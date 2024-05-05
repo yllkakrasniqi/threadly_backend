@@ -33,14 +33,6 @@ export const typeDefs = `#graphql
         prodimages: [ProdImage!]!,
         prodsizeamounts: [ProdSizeAmount!]!
     }
-    type Size {
-        _id: ID!,
-        name: String!,
-        description: String!,
-        standard: String,
-
-        prodsizeamounts: [ProdSizeAmount!]
-    },
     type ProdImage {
         _id: ID!,
         prod_color_id: ID!,
@@ -49,6 +41,14 @@ export const typeDefs = `#graphql
 
         prodcolor: ProdColor,
     }
+    type Size {
+        _id: ID!,
+        name: String!,
+        description: String!,
+        standard: String,
+
+        prodsizeamounts: [ProdSizeAmount!]
+    }
     type ProdSizeAmount {
         _id: ID!,
         prod_color_id: ID!,
@@ -56,6 +56,7 @@ export const typeDefs = `#graphql
         quantity: Int!,
         
         prodcolor: ProdColor!
+        size: Size!
     },
     type Query {
         hello: String!,
@@ -67,6 +68,7 @@ export const typeDefs = `#graphql
         prodcolor(id: ID!): ProdColor,
         prodimages: [ProdImage!],
         prodimage(id: ID!): ProdImage,
+        prodsizeamount(id: ID!): ProdSizeAmount,
     }
 
 `

@@ -9,6 +9,8 @@ import Product from './src/models/Product.js'
 import ProdColor from './src/models/ProdColor.js'
 import Color from './src/models/Color.js'
 import ProdImage from './src/models/ProdImage.js'
+import Size from './src/models/Size.js'
+import ProdSizeAmount from './src/models/ProdSizeAmount.js'
 
 const PORT = 4000 
 
@@ -27,6 +29,7 @@ const resolvers = {
             });
         },
         products() {
+            console.log('success')
             return Product.find()
             .then(result => {
                 return result.map(r => ({ ...r._doc }))
@@ -82,6 +85,15 @@ const resolvers = {
         },
         prodimage(_, args) {
             return ProdImage.findById(args._id)
+            .then(result => {
+                return result._doc;
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        },
+        prodsizeamount(_, args) {
+            return ProdSizeAmount.findById(args._id)
             .then(result => {
                 return result._doc;
             })
@@ -150,11 +162,57 @@ const resolvers = {
             .catch((err) => {
                 console.error(err);
             });
+        },
+        prodimages(parent) {
+            return ProdImage.find({prod_color_id: parent._id})
+            .then(result => {
+                return result.map(r => ({ ...r._doc }))
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        },
+        prodsizeamounts(parent) {
+            return ProdSizeAmount.find({prod_color_id: parent._id})
+            .then(result => {
+                return result.map(r => ({ ...r._doc }))
+            })
+            .catch((err) => {
+                console.error(err);
+            });
         }
     },
     ProdImage: {
         prodcolor(parent) {
             return ProdColor.findById(parent.prod_color_id)
+            .then(result => {
+                if(result._doc){
+                    return result._doc
+                } else {
+                    return
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        }
+    },
+    ProdSizeAmount: {
+        prodcolor(parent) {
+            return ProdColor.findById(parent.prod_color_id)
+            .then(result => {
+                if(result._doc){
+                    return result._doc
+                } else {
+                    return
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        },
+        size(parent) {
+            return Size.findById(parent.size_id)
             .then(result => {
                 if(result._doc){
                     return result._doc
