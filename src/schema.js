@@ -57,7 +57,7 @@ export const typeDefs = `#graphql
         
         prodcolor: ProdColor!
         size: Size!
-    },
+    }
     type Query {
         hello: String!,
         brands: [Brand!],
@@ -69,6 +69,9 @@ export const typeDefs = `#graphql
         prodimages: [ProdImage!],
         prodimage(id: ID!): ProdImage,
         prodsizeamount(id: ID!): ProdSizeAmount,
+    }
+    type Mutation {
+        createProduct (brandID: ID!, name: String!, type: String!, price: Float!, gender: String! ): Product
     }
 
 `
