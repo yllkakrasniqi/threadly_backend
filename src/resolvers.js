@@ -6,6 +6,16 @@ import ProdImage from './models/ProdImage.js'
 import Size from './models/Size.js'
 import ProdSizeAmount from './models/ProdSizeAmount.js'
 
+const checkProductColor = (prod_color_id) => {
+    return new Promise (async (resolve, reject) => {
+        const productImages = await ProdImage.find({ prod_color_id: prod_color_id });
+        if (productImages.length === 0) {
+            await ProdColor.delete({ _id: prod_color_id });
+        }
+        resolve(true)
+    })
+}
+
 export const resolvers = {
     Query: {
         hello() {
@@ -21,7 +31,6 @@ export const resolvers = {
             });
         },
         products() {
-            console.log('success')
             return Product.find()
             .then(result => {
                 return result.map(r => ({ ...r._doc }))
@@ -66,8 +75,15 @@ export const resolvers = {
                 console.error(err);
             });
         },
-        prodimages() {
-            return ProdImage.find()
+        prodimages(_, args) {
+            const prod_color_id = args.prod_color_id
+            
+            let query = {};
+            if(prod_color_id){
+                query = {prod_color_id: prod_color_id}
+            }
+
+            return ProdImage.find(query)
             .then(result => {
                 return result.map(r => ({ ...r._doc }))
             })
@@ -108,6 +124,45 @@ export const resolvers = {
             return newProduct.save()
             .then(result => {
                 return { ...result._doc }
+            })
+            .catch(err => console.log(err))
+        },
+        completeProduct: async (_, args) => {
+            const { productID } = args
+
+            const product = await Product.findById(productID)
+            if (!product) { 
+                throw new Error(`Product with id ${productID} does not exist!`)
+            }
+
+            const productColors = await ProdColor.find({ productID: productID })
+            const checkProductColors = productColors.map(file => checkProductColor(file._id))
+            return Promise.all(checkProductColors)
+            .then(async (result) => {
+                await Product.updateOne({ _id: productID }, { status: 1 })
+                return { ...product._doc }
+            })
+
+        },
+        addProductColors: async (_, args) => {
+            const { productID, colors } = args
+
+            const product = await Product.findById(productID);
+            if (!product) {
+                throw new Error(`Product with id ${productID} does not exist!`)
+            }
+
+            let newProductColors = []
+            colors.map(color => {
+                newProductColors.push({
+                    productID: productID,
+                    colorID: color
+                })
+            })
+
+            return ProdColor.insertMany(newProductColors)
+            .then(result => {
+                return result.map(r => ({ ...r._doc }))
             })
             .catch(err => console.log(err))
         }

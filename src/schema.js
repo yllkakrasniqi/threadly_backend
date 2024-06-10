@@ -66,12 +66,14 @@ export const typeDefs = `#graphql
         colors: [Color!],
         prodcolors: [ProdColor!],
         prodcolor(id: ID!): ProdColor,
-        prodimages: [ProdImage!],
+        prodimages(prod_color_id: ID): [ProdImage!],
         prodimage(id: ID!): ProdImage,
         prodsizeamount(id: ID!): ProdSizeAmount,
     }
     type Mutation {
         createProduct (brandID: ID!, name: String!, type: String!, price: Float!, gender: String! ): Product
+        completeProduct (productID: ID!): Product!
+        addProductColors (productID: ID!, colors: [ID!]! ): [ProdColor!]
     }
 
 `
