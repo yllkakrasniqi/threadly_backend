@@ -6,15 +6,7 @@ import ProdImage from './models/ProdImage.js'
 import Size from './models/Size.js'
 import ProdSizeAmount from './models/ProdSizeAmount.js'
 
-const checkProductColor = (prod_color_id) => {
-    return new Promise (async (resolve, reject) => {
-        const productImages = await ProdImage.find({ prod_color_id: prod_color_id });
-        if (productImages.length === 0) {
-            await ProdColor.delete({ _id: prod_color_id });
-        }
-        resolve(true)
-    })
-}
+import mongoose from "mongoose";
 
 export const resolvers = {
     Query: {
@@ -67,7 +59,7 @@ export const resolvers = {
             });
         },
         prodcolor(_, args) {
-            return ProdColor.findById(args._id)
+            return ProdColor.findById(args.id)
             .then(result => {
                 return result._doc;
             })
@@ -76,14 +68,7 @@ export const resolvers = {
             });
         },
         prodimages(_, args) {
-            const prod_color_id = args.prod_color_id
-            
-            let query = {};
-            if(prod_color_id){
-                query = {prod_color_id: prod_color_id}
-            }
-
-            return ProdImage.find(query)
+            return ProdImage.find()
             .then(result => {
                 return result.map(r => ({ ...r._doc }))
             })
@@ -135,12 +120,41 @@ export const resolvers = {
                 throw new Error(`Product with id ${productID} does not exist!`)
             }
 
-            const productColors = await ProdColor.find({ productID: productID })
-            const checkProductColors = productColors.map(file => checkProductColor(file._id))
-            return Promise.all(checkProductColors)
-            .then(async (result) => {
-                await Product.updateOne({ _id: productID }, { status: 1 })
-                return { ...product._doc }
+            /**
+             * Check all colors for the product, if any of them does not have 
+             * any image will be deleted from database
+             */
+            return ProdColor.aggregate([
+                {
+                    $match: { productID: new mongoose.Types.ObjectId(productID)}
+                },
+                {
+                    $lookup: {
+                        from: 'prodimages',
+                        localField: "_id",
+                        foreignField: "prod_color_id",
+                        as: "images",
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        colorID: 1,
+              
+                        "images.filename": 1,
+                      },
+                }
+            ]).then(async result => {
+                const index = result.findIndex(ele => ele.images.length > 0)
+
+                if ( index === -1 ) {
+                    await Product.delete({ _id: productID })
+                    return { ...product._doc }
+                } else {
+                    const deletedProduct = result.filter(ele => ele.images.length === 0).map(ele => ele._id)
+                    await ProdColor.deleteMany({ _id: { $in: deletedProduct }})
+                    return { ...product._doc }
+                }
             })
 
         },
