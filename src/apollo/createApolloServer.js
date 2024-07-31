@@ -21,7 +21,7 @@ export const createApolloServer = (middleware, { app, schema }) => {
       const token = authorization.replace("Bearer", "").trim()
 
       const { id } =  await verifyJwt(token)
-    
+
       return {
         request,
         reply,

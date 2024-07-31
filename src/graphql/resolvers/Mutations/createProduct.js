@@ -1,7 +1,7 @@
 import Product from "../../../models/Product.js";
 
 export const createProduct = async (_, args) => {
-    const { brandID, name, type, price, gender } = args
+    const { brandID, name, type, price, gender } = args.input
 
     const newProduct = new Product({
         brandID,
