@@ -1,0 +1,14 @@
+type ProdColor {
+    _id: ID!
+    productID: ID!
+    colorID: String!
+        
+    product: Product!
+    color: Color!
+    prodimages: [ProdImage!]!
+    prodsizeamounts: [ProdSizeAmount!]!
+}
+
+type Query {
+    prodcolors: [ProdColor!]
+}

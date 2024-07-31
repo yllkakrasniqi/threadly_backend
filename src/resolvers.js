@@ -112,7 +112,29 @@ export const resolvers = {
             })
             .catch(err => console.log(err))
         },
-        completeProduct: async (_, args) => {
+        addProductColors: async (_, args) => {
+            const { productID, colors } = args
+
+            const product = await Product.findById(productID);
+            if (!product) {
+                throw new Error(`Product with id ${productID} does not exist!`)
+            }
+
+            let newProductColors = []
+            colors.map(color => {
+                newProductColors.push({
+                    productID: productID,
+                    colorID: color
+                })
+            })
+
+            return ProdColor.insertMany(newProductColors)
+            .then(result => {
+                return result.map(r => ({ ...r._doc }))
+            })
+            .catch(err => console.log(err))
+        },
+        completeProdColor: async (_, args) => {
             const { productID } = args
 
             const product = await Product.findById(productID)
@@ -158,27 +180,50 @@ export const resolvers = {
             })
 
         },
-        addProductColors: async (_, args) => {
-            const { productID, colors } = args
+        addProductSizes: async (_, args) => {
+            const { productID, amount, standard, sizes } = args
 
-            const product = await Product.findById(productID);
-            if (!product) {
+            const product = await Product.findById(productID)
+            if (!product) { 
                 throw new Error(`Product with id ${productID} does not exist!`)
             }
 
-            let newProductColors = []
-            colors.map(color => {
-                newProductColors.push({
-                    productID: productID,
-                    colorID: color
-                })
-            })
+            /**
+             *  Get all colors from table ProdColor in which you can
+             *  find the product with productID that is given in url
+             */
+            const prodColors = await ProdColor.find({ productID: productID });
+            if (prodColors.length === 0) {
+                /**
+                 * If nothing is found show error than no product exist with
+                 * that ID because an product does not exist if you can not
+                 * found it in any color
+                 */
+                throw new Error(`Product with id ${productID} does not exist!`)
+            }
 
-            return ProdColor.insertMany(newProductColors)
+            /**
+             * Get all the SizeIDs for the selected sizes. 
+             * After that fill the prodSizeAmount array with each product
+             * color with selected sizes and amount
+             */
+            const sizeArray = await Size.find( { name: { $in: sizes } } )
+
+            let prodSizeAmount = [];
+            for(const prodColor of prodColors){
+                sizeArray.map(ele => {
+                    prodSizeAmount.push({
+                        prod_color_id: prodColor._id,
+                        size_id: ele._id,
+                        quantity: amount,
+                    })
+                })
+            }
+
+            return ProdSizeAmount.insertMany(prodSizeAmount)
             .then(result => {
                 return result.map(r => ({ ...r._doc }))
             })
-            .catch(err => console.log(err))
         }
     },
     Brand: {

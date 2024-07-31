@@ -1,4 +1,7 @@
-export const typeDefs = `#graphql
+import { gql } from "apollo-server-fastify";
+
+// export const typeDefs = `#graphql
+export const typeDefs = gql`
     type Brand {
         _id: ID!,
         name: String!,
@@ -71,9 +74,10 @@ export const typeDefs = `#graphql
         prodsizeamount(id: ID!): ProdSizeAmount,
     }
     type Mutation {
-        createProduct (brandID: ID!, name: String!, type: String!, price: Float!, gender: String! ): Product
-        completeProduct (productID: ID!): Product!
+        createProduct (brandID: ID!, name: String!, type: String!, price: Float!, gender: String! ): Product!
         addProductColors (productID: ID!, colors: [ID!]! ): [ProdColor!]
+        completeProdColor (productID: ID!): Product!
+        addProductSizes (productID: ID!, amount: Int!, standard: String, sizes: [String!]!): [ProdSizeAmount!] 
     }
 
 `

@@ -1,0 +1,3 @@
+type Mutation {
+    completeProdColor(productID: ID!): Product!
+}

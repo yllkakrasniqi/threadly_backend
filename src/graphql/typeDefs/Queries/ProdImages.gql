@@ -1,0 +1,12 @@
+type ProdImage {
+    _id: ID!
+    prod_color_id: ID!
+    filename: String!
+    path: String!
+
+    prodcolor: ProdColor
+}
+
+type Query {
+    prodimages(prod_color_id: ID): [ProdImage!]
+}

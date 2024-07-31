@@ -1,0 +1,8 @@
+input addProductColorsInput {
+    productID: ID!
+    colors: [ID!]!
+}
+
+type Mutation {
+    addProductColors(input: addProductColorsInput): [ProdColor!]
+}

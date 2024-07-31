@@ -1,0 +1,16 @@
+type Product {
+    _id: ID!,
+    brandID: ID!,
+    name: String!,
+    type: String!,
+    price: Float!,
+    gender: String!,
+    status: Int!,
+
+    brand: Brand,
+    prodcolors: [ProdColor!]!
+}
+
+type Query {
+    product(id: ID!): Product
+}

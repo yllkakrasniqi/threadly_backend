@@ -1,0 +1,13 @@
+type ProdSizeAmount {
+    _id: ID!
+    prod_color_id: ID!
+    size_id: ID!
+    quantity: Int!
+        
+    prodcolor: ProdColor!
+    size: Size!
+}
+
+type Query {
+    prodsizeamount(id: ID!): ProdSizeAmount
+}

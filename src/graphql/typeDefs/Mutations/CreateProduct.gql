@@ -1,0 +1,11 @@
+input createProductInput {
+    brandID: ID!
+    name: String!
+    type: String!
+    price: Float! 
+    gender: String!
+}
+
+type Mutation {
+    createProduct(input: createProductInput): Product!
+}

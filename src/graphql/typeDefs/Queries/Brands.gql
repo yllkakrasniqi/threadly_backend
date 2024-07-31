@@ -1,0 +1,10 @@
+type Brand {
+    _id: ID!
+    name: String!
+
+    products: [Product!]
+}
+
+type Query {
+    brands: [Brand!]
+}

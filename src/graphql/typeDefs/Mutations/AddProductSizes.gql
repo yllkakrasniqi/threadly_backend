@@ -1,0 +1,10 @@
+input addProductSizesInput {
+    productID: ID! 
+    amount: Int!
+    standard: String 
+    sizes: [String!]!
+}
+
+type Mutation {
+    addProductSizes(input: addProductSizesInput): [ProdSizeAmount!]
+}

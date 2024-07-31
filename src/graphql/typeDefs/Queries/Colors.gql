@@ -1,0 +1,10 @@
+ type Color {
+    _id:  String!
+    colorStr: String!
+
+    prodcolors: [ProdColor!]
+}
+
+type Query {
+    colors: [Color!],
+}

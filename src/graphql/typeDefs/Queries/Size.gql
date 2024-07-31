@@ -1,0 +1,6 @@
+type Size {
+  _id: ID!
+  name: String!
+  description: String!
+  standard: String
+}
