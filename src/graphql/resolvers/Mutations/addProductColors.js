@@ -2,7 +2,7 @@ import ProdColor from "../../../models/ProdColor.js";
 import Product from "../../../models/Product.js";
 
 export const addProductColors = async (_, args) => {
-    const { productID, colors } = args
+    const { productID, colors } = args.input
 
     const product = await Product.findById(productID);
     if (!product) {

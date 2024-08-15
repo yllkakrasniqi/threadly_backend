@@ -5,7 +5,7 @@ import Size from "../../../models/Size.js";
 
 
 export const addProductSizes = async (_, args) => {
-    const { productID, amount, standard, sizes } = args
+    const { productID, amount, standard, sizes } = args.input
 
     const product = await Product.findById(productID)
     if (!product) { 

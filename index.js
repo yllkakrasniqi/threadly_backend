@@ -5,8 +5,6 @@ import { createApolloServer } from "./src/apollo/createApolloServer.js";
 import { permissions } from "./src/guards/index.js";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { typeDefs, resolvers } from "./src/graphql/index.js";
-// import cors from '@fastify/cors';
-import cors from '@fastify/cors'
 
 const PORT = 4000;
 

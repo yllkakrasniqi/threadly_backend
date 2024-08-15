@@ -28,6 +28,7 @@ export const createApolloServer = (middleware, { app, schema }) => {
       };
   
     },
+    debug: true,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer: app.server }),
       {

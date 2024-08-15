@@ -2,7 +2,7 @@ input addProductSizesInput {
     productID: ID! 
     amount: Int!
     standard: String 
-    sizes: [String!]!
+    sizes: [String]!
 }
 
 type Mutation {

@@ -1,6 +1,6 @@
 input addProductColorsInput {
     productID: ID!
-    colors: [ID!]!
+    colors: [String!]!
 }
 
 type Mutation {
