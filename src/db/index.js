@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import { config } from '../config.js';
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/latestdb";
+const { db: { host, port, name} } = config
+const mongo_uri = `mongodb://${host}:${port}/${name}`;
 
 export const connectDB = async () => {
     mongoose
-      .connect(MONGO_URI, {
+      .connect(mongo_uri, {
       })
       .then(() => {
         console.log("Connected to Mongo!");

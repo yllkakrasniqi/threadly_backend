@@ -1,11 +1,9 @@
 import jwt from 'jsonwebtoken'
-import { JWT_SECRET } from '../config/auth.js'
-
-//process.env.JWT_SECRET
+import { config } from '../config.js'
 
 export const verifyJwt = async (jwtToken) => {
     return new Promise((resolve, reject) => {
-        jwt.verify(jwtToken, JWT_SECRET, (err, decoded) => {
+        jwt.verify(jwtToken, config.jwt.secret_key, (err, decoded) => {
             if(err){
                 reject(err);
             }

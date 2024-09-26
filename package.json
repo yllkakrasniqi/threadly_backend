@@ -2,10 +2,10 @@
   "name": "threadly_backend",
   "version": "1.0.0",
   "description": "backend for threadly project",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index",
+    "start": "node src/index",
+    "dev": "nodemon src/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "@graphql-tools/schema": "^10.0.4",
     "apollo-server-core": "^3.13.0",
     "apollo-server-fastify": "^3.13.0",
+    "dotenv": "^16.4.5",
     "fastify": "^3.29.5",
     "graphql": "^16.9.0",
     "graphql-middleware": "^6.1.35",

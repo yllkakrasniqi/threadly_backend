@@ -1,6 +1,7 @@
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { ApolloServer } from "apollo-server-fastify";
 import { applyMiddleware } from "graphql-middleware";
+
 import { verifyJwt } from "../utils/index.js";
 
 export const createApolloServer = (middleware, { app, schema }) => {
