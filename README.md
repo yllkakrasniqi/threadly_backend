@@ -117,3 +117,14 @@ The project uses a modular GraphQL schema structure. Below are some key types, q
       }
     }
     ```
+
+## API Endpoints
+
+This project exposes a single GraphQL endpoint:
+
+- `http://localhost:4000/graphql`
+
+## Usage
+
+You can interact with the API using GraphQL clients such as [Apollo Studio Explorer](https://studio.apollographql.com/), [GraphiQL](https://github.com/graphql/graphiql), or any other API clients like [Postman](https://www.postman.com/).
+
