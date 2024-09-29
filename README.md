@@ -124,6 +124,40 @@ This project exposes a single GraphQL endpoint:
 
 - `http://localhost:4000/graphql`
 
+## Installation
+
+Follow these steps to install and run the project locally:
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yllkakrasniqi/threadly_backend.git
+    ```
+
+2. Navigate to the project directory:
+    ```bash
+    cd threadly_backend
+    ```
+
+3. Install the required dependencies:
+    ```bash
+    npm install
+    ```
+
+4. Set up environment variables by creating a `.env` file in the root of the project:
+    ```bash
+      PORT=3005
+      CORS_ORIGIN=http://localhost:3000 or your deployed server
+      DB_HOST='mongodb_host'
+      DB_PORT=mongodb_port
+      DB_NAME='database_name'
+      JWT_SECRET=your_jwt_secret
+    ```
+
+5. Running the app:
+    ```bash
+    npm run start
+    ```
+
 ## Usage
 
 You can interact with the API using GraphQL clients such as [Apollo Studio Explorer](https://studio.apollographql.com/), [GraphiQL](https://github.com/graphql/graphiql), or any other API clients like [Postman](https://www.postman.com/).
